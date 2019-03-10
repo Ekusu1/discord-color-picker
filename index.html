@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>Dicors Color Picker</title>
+
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" href="resources/bgrins-spectrum-98454b5/spectrum.css">
+	<link rel="stylesheet" href="resources/styles.css">
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="resources/bgrins-spectrum-98454b5/spectrum.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.0/knockout-min.js"></script>
+</head>
+<body>
+	<div class="container-fluid p-2">
+		<div class="row no-gutters justify-content-center">
+			<div class="card col bg-dark text-light mb-2">
+				<h2 class="card-header p-1">
+					Discord Color Picker
+					<button type="button" class="btn btn-square border-light text-info btn-sm float-right btn-instructions" data-toggle="collapse" data-target="#instructions" title="show/hide instructions">
+						<i class="fa fa-fw fa-info"></i>
+					</button>
+				</h2>
+				<div id="instructions" class="card-body collapse p-1" data-bind="css: {show: !hideInstructions}">
+					<p>
+						This is supposed to help you pick the best role color, it also shows a preview for the light and dark themes of Discord.<br>
+						The only thing different is the font, the one Discord uses is called "Whitney", <br>
+						the main reason I dont use it is because it costs money, and its not cheap... <br>
+						the second reason is because it's weird, some specific colors really bleed over into the background -_-
+					</p>
+					<p>Its pretty self explanatory but anyway^^</p>
+					<ul>
+						<li class="mb-2">
+							Click on the username to change it, both in the row will be changed. <br>
+							(That on isn't as obvious as the others...)
+						</li>
+						<li class="mb-2">
+							Click
+							<input id="spectrum-example" type="text" class="btn btn-square btn-sm border-light btn-dark" />
+							to change the color...</li>
+						<li class="mb-2">
+							Click
+							<button type="button" class="btn btn-square btn-sm border-light btn-info" title="copy color in HEX"><i class="fa fa-fw fa-copy"></i></button>
+							to copy the color to your clipboard. <br>
+							Format will be in hexadecimal aka "#FFFFFF".
+						</li>
+						<li class="mb-2">
+							Click
+							<button class="btn btn-square btn-sm border-light btn-success" title="clone color"><i class="fa fa-fw fa-clone"></i></button>
+							to duplicated the row.
+						</li>
+						<li class="mb-2">
+							Click
+							<button class="btn btn-square btn-sm border-light btn-danger" title="remove color"><i class="fa fa-fw fa-times"></i></button>
+							to delete the row. You can't delete the last one.
+						</li>
+						<li class="mb-2">
+							Click
+							<button class="btn btn-square border-light btn-primary btn-sm" title="add new color">
+								<i class="fa fa-fw fa-plus"></i>
+							</button>
+							(the big one... kinda hard to miss) to add a new row.
+						</li>
+						<li>
+							Click
+							<button type="button" class="btn btn-square border-light text-info btn-sm" data-toggle="collapse" data-target="#instructions" title="show/hide instructions">
+								<i class="fa fa-fw fa-info"></i>
+							</button>
+							at the top right to hide/show the instructions (the ones you are reading right now).
+						</li>
+					</ul>
+					<p>BTW this site remembers your changes if you want to reset use those buttons:</p>
+					<p>
+						<button type="button" class="btn btn-sm btn-danger" data-bind="click: resetSpectrum">reset color palette</button>
+						<button type="button" class="btn btn-sm btn-danger" data-bind="click: resetSavedColors">reset user colors</button>
+						<button type="button" class="btn btn-sm btn-danger" data-bind="click: resetAll">reset both</button>
+					</p>
+					<label class="form-check">
+						<input type="checkbox" class="form-check-input" data-bind="checked: hideInstructions">
+						<span class="form-check-label">hide the instructions next time?</span>
+					</label>
+				</div>
+			</div>
+		</div>
+		<div class="row no-gutters justify-content-center">
+			<div class="col">
+				<!-- ko foreach: { data: colors, afterRender: function(e,d) {d.addSpectrum(e,d);}} -->
+				<div class="row no-gutters">
+					<input type="text" class="col username discord-theme-light" data-bind="value: name, style: {'color': colorHex}, valueUpdate: 'input'"  />
+					<input type="text" class="col username discord-theme-dark" data-bind="value: name, style: {'color': colorHex}, valueUpdate: 'input'"  />
+					<div class="col-auto col-actions">
+						<div class="btn-group btn-group-sm">
+							<input id="" type="text" class="btn btn-square border-light btn-light" data-bind="value: colorHex, attr:{id: 'spectrum-'+id}, style: {background: colorHex}" />
+							<button class="btn btn-square border-light btn-info" title="copy color in HEX" data-bind="click: copyColor">
+								<i class="fa fa-fw fa-copy"></i>
+							</button>
+							<button class="btn btn-square border-light btn-success" title="clone color" data-bind="click: $parent.cloneColor">
+								<i class="fa fa-fw fa-clone"></i>
+							</button>
+							<button class="btn btn-square border-light btn-danger" title="remove color" data-bind="click: $parent.removeColor, enable: $parent.colors().length>1">
+								<i class="fa fa-fw fa-times"></i>
+							</button>
+						</div>
+					</div>
+				</div>
+				<!-- /ko -->
+				<div class="row no-gutters">
+					<button class="col mt-1 btn border-light btn-primary btn-sm" title="add new color" data-bind="click: addColor">
+						<i class="fa fa-fw fa-plus"></i>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="resources/script.js"></script>
+</body>
+</html>

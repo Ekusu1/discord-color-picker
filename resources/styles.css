@@ -1,0 +1,58 @@
+html, body {background-color: #111111;}
+
+/* Bootstrap overrides */
+.container-fluid { max-width: 600px; }
+.btn { padding: .25rem !important; }
+
+/* Spectrum Specific */
+.sp-replacer { padding: 0 !important; }
+
+.sp-preview {
+	margin: 0;
+	width:  100%;
+	height: 100%;
+	border: none;
+
+	border-top-left-radius: .2rem;
+	border-bottom-left-radius: .2rem;
+}
+.sp-preview-inner {
+	border-top-left-radius: .2rem;
+	border-bottom-left-radius: .2rem;
+}
+
+.sp-dd { display: none; }
+
+/* Custom */
+.btn-square {
+	width:   31px;
+	height:  31px;
+}
+.btn-instructions {
+	margin-top: 0.25rem;
+}
+
+.col-actions {
+	padding: 2.5px 0;
+	width:   125px;
+}
+
+.col-actions.btn-group {
+	margin-left: 5px;
+}
+
+.username {
+	padding:     0 10px !important;
+	border:      none;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size:   15px;
+	font-weight: 600;
+}
+
+.discord-theme-light {
+	background-color: #ffffff;
+}
+
+.discord-theme-dark {
+	background-color: #36393f;
+}
